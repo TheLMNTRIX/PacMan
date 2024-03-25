@@ -2,8 +2,8 @@ import pygame
 
 #PacMan initial position
 
-pacman_start_row=23
-pacman_start_col=12
+pacman_start_row=22.5
+pacman_start_col=13.5
 YELLOW=(255,255,0)
 #movement vectors
 move_vectors={
