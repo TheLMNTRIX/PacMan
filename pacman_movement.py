@@ -7,10 +7,10 @@ pacman_start_col=13.5
 YELLOW=(255,255,0)
 #movement vectors
 move_vectors={
-    pygame.K_LEFT:(-1,0),
-    pygame.K_RIGHT:(1,0),
-    pygame.K_UP:(0,-1),
-    pygame.K_DOWN:(0,1)
+    pygame.K_LEFT:(0,-1),
+    pygame.K_RIGHT:(0,1),
+    pygame.K_UP:(-1,0),
+    pygame.K_DOWN:(1,0)
 }
 
 
@@ -31,8 +31,8 @@ class pacman:
             move_row, move_col= direction    
 
             #calculating new position
-            new_row=self.row+move_row
-            new_col=self.col+move_col
+            new_row=int(self.row+move_row)
+            new_col=int(self.col+move_col)
 
             #check for walls
             if self.board[new_row][new_col]=="1":
@@ -44,15 +44,15 @@ class pacman:
             #check for points
             self.handle_collisions(new_row,new_col)
 
-        def handle_collisions(self,row,col):
-            cell_value=self.board[row][col]
-            if cell_value=="3":
-                self.score += 10
-                self.board[row][col]="0"
+    def handle_collisions(self,row,col):
+        cell_value=self.board[row][col]
+        if cell_value=="3":
+            self.score += 10
+            self.board[row][col]="0"
 
-            elif cell_value=="2":
-                self.score += 50
-                self.board[row][col]="0"
+        elif cell_value=="2":
+            self.score += 50
+            self.board[row][col]="0"
 
 
     def draw(self, surface, cell_size):
