@@ -2,7 +2,7 @@ import pygame
 
 #PacMan initial position
 
-pacman_start_row=22.5
+pacman_start_row=23
 pacman_start_col=13.5
 YELLOW=(255,255,0)
 
@@ -29,6 +29,8 @@ class pacman:
             else:
                 move_row, move_col = 0, 0
             #calculating new position
+        if(move_row==0 and move_col==0):
+            return        
         new_row=int(self.row+move_row)
         new_col=int(self.col+move_col)
 
@@ -56,7 +58,7 @@ class pacman:
     def draw(self, surface, cell_size):
         pacman_x=self.col*cell_size
         pacman_y=self.row*cell_size
-        pygame.draw.circle(surface,YELLOW,(pacman_x+cell_size//2,pacman_y+cell_size),cell_size//2)            
+        pygame.draw.circle(surface,YELLOW,(pacman_x+cell_size//2,pacman_y+cell_size//2),cell_size//2)            
 
 
 
