@@ -7,7 +7,7 @@ board_width=28
 board_height=31
 cell_size = 24
 window_width = board_width * cell_size 
-window_height = board_height * cell_size
+window_height = board_height * cell_size + 40
 
 BLACK=(0,0,0)
 YELLOW=(255,255,0)
@@ -19,7 +19,7 @@ GREEN=(0,255,0)
 
 def create_board():
     board=[]
-    #layout for the board, # is wall, . is empty cell, * is Powerup, else regular point
+    #layout for the board, # is wall, blank is empty cell, * is Powerup, . is regular point
     layout = [
     "############################",
     "#............##............#",
@@ -59,11 +59,11 @@ def create_board():
             if layout[row][col] == "#":
                 board[row].append("1")   #wall
             elif layout[row][col] == ".":    
-                board[row].append("3")   #empty cell
+                board[row].append("2")   #regular pellet
             elif layout[row][col] == "*":
-                board[row].append("2")  #Powerup
+                board[row].append("3")  #Powerup
             else:
-                board[row].append("0")  #regular point
+                board[row].append("0")  #empty cell
 
     return board                         
 
@@ -81,18 +81,21 @@ def draw_board(surface, board):
                 pygame.draw.rect(surface, BLUE, (x,y,cell_size,cell_size))   #Drawing BLUE walls
 
 
-
             elif cell_value=="2":
+                center_x=x+cell_size//2
+                center_y=y+cell_size//2
+                radius=cell_size//6
+                pygame.draw.circle(surface,RED,(center_x,center_y),radius)    #Drawing RED regular points  
+
+
+
+            elif cell_value=="3":
                 center_x=x+cell_size//2
                 center_y=y+cell_size//2
                 radius=cell_size//4
                 pygame.draw.circle(surface,WHITE,(center_x,center_y),radius)  #Drawing WHITE Powerups
 
-            elif cell_value=="3":
-                center_x=x+cell_size//2
-                center_y=y+cell_size//2
-                radius=cell_size//6
-                pygame.draw.circle(surface,RED,(center_x,center_y),radius)    #Drawing RED regular points    
+            
 
 
 

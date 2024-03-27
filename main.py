@@ -1,6 +1,6 @@
 import pygame
 import random
-from game_board import create_board, draw_board, window_width, window_height, BLACK, cell_size
+from game_board import create_board, draw_board, window_width, window_height, BLACK, cell_size, WHITE
 from pacman_movement import pacman
 
 
@@ -10,7 +10,7 @@ def main():
     window=pygame.display.set_mode((window_width,window_height))
     pygame.display.set_caption("PacMan")
     clock=pygame.time.Clock()
-
+    font = pygame.font.Font(None, 24)
     board=create_board()
     pacman_instance = pacman(board)   #creating pacman object
     pressed_keys = [False, False, False, False]
@@ -47,8 +47,14 @@ def main():
         window.fill(BLACK)       #drawing the board
         draw_board(window,board)
         pacman_instance.draw(window, cell_size)  
-        pygame.display.flip()
+        text = font.render("Score: " + str(pacman_instance.score), True, WHITE)
+        window.blit(text, (10, window_height - 30))
+        
 
+
+        pygame.display.update()
+
+    
 
     pygame.quit()
 

@@ -46,11 +46,11 @@ class pacman:
 
     def handle_collisions(self,row,col):
         cell_value=self.board[row][col]
-        if cell_value=="3":
+        if cell_value=="2":
             self.score += 10
             self.board[row][col]="0"
 
-        elif cell_value=="2":
+        elif cell_value=="3":
             self.score += 50
             self.board[row][col]="0"
 
