@@ -13,20 +13,38 @@ def main():
 
     board=create_board()
     pacman_instance = pacman(board)   #creating pacman object
-
+    pressed_keys = [False, False, False, False]
     running=True
 
     while running:
-        clock.tick(30)
+        clock.tick(8)
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 running=False
             
-            elif event.type==pygame.KEYDOWN:   #move event
-                    pacman_instance.move(event)      
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    pressed_keys[0] = True
+                elif event.key == pygame.K_RIGHT:
+                    pressed_keys[1] = True
+                elif event.key == pygame.K_UP:
+                    pressed_keys[2] = True
+                elif event.key == pygame.K_DOWN:
+                    pressed_keys[3] = True
 
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    pressed_keys[0] = False
+                elif event.key == pygame.K_RIGHT:
+                    pressed_keys[1] = False
+                elif event.key == pygame.K_UP:
+                    pressed_keys[2] = False
+                elif event.key == pygame.K_DOWN:
+                    pressed_keys[3] = False
 
-        window.fill(BLACK)
+        pacman_instance.move(pressed_keys)   #move pacman
+
+        window.fill(BLACK)       #drawing the board
         draw_board(window,board)
         pacman_instance.draw(window, cell_size)  
         pygame.display.flip()
