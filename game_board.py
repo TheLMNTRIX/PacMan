@@ -62,6 +62,8 @@ def create_board():
                 board[row].append("2")   #regular pellet
             elif layout[row][col] == "*":
                 board[row].append("3")  #Powerup
+            elif layout[row][col] == "-":
+                board[row].append("4")     
             else:
                 board[row].append("0")  #empty cell
 
