@@ -51,6 +51,10 @@ class Ghost:
     def update(self):
         if self.get_next_cell_value() == "1":  # Hit a wall
             self.direction = self.new_direction()
+        elif self.board[self.y][self.x] == "5":  # Hit a decision point
+          possible_directions = self.get_valid_directions()
+          if possible_directions:
+              self.direction = random.choice(possible_directions)    
 
         if self.direction == "up":
             self.y -= 1
@@ -92,13 +96,13 @@ class Ghost:
         return random.choice(possible_directions)
     def get_valid_directions(self):
         valid_directions = []
-        if self.board[self.y - 1][self.x] == "0" or self.board[self.y - 1][self.x] == "2" or self.board[self.y - 1][self.x] == "3" or self.board[self.y - 1][self.x] == "4":  # Check up
+        if self.board[self.y - 1][self.x] == "0" or self.board[self.y - 1][self.x] == "2" or self.board[self.y - 1][self.x] == "3" or self.board[self.y - 1][self.x] == "4" or self.board[self.y - 1][self.x] == "5":  # Check up
             valid_directions.append("up")
-        if self.board[self.y + 1][self.x] == "0" or self.board[self.y + 1][self.x] == "2" or self.board[self.y + 1][self.x] == "3" or self.board[self.y + 1][self.x] == "4" :  # Check down
+        if self.board[self.y + 1][self.x] == "0" or self.board[self.y + 1][self.x] == "2" or self.board[self.y + 1][self.x] == "3" or self.board[self.y - 1][self.x] == "4" or self.board[self.y - 1][self.x] == "5":  # Check down
             valid_directions.append("down")
-        if self.board[self.y][self.x - 1] == "0" or self.board[self.y][self.x - 1] == "2" or self.board[self.y][self.x - 1] == "3" or self.board[self.y][self.x - 1] == "4":  # Check left
+        if self.board[self.y][self.x - 1] == "0" or self.board[self.y][self.x - 1] == "2" or self.board[self.y][self.x - 1] == "3" or self.board[self.y][self.x - 1] == "4" or self.board[self.y][self.x - 1] == "5":  # Check left
             valid_directions.append("left")
-        if self.board[self.y][self.x + 1] == "0" or self.board[self.y][self.x + 1] == "2" or self.board[self.y][self.x + 1] == "3" or self.board[self.y][self.x + 1] == "4":  # Check right
+        if self.board[self.y][self.x + 1] == "0" or self.board[self.y][self.x + 1] == "2" or self.board[self.y][self.x + 1] == "3" or self.board[self.y][self.x + 1] == "4" or self.board[self.y][self.x + 1] == "5":  # Check right
             valid_directions.append("right")
 
 
