@@ -2,8 +2,15 @@ import pygame
 import random
 from game_board import create_board, draw_board, window_width, window_height, BLACK, cell_size, WHITE
 from pacman_movement import pacman
+from ghost import Ghost
 
+GREEN = (50, 205, 50)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
 
+board_width=28
+board_height=31
 
 def main():
     pygame.init()
@@ -12,7 +19,13 @@ def main():
     clock=pygame.time.Clock()
     font = pygame.font.Font(None, 24)
     board=create_board()
-    pacman_instance = pacman(board)   #creating pacman object
+    pacman_instance = pacman(board) #creating pacman object
+    ghost_start_x = 11
+    ghost_start_y = 13
+    ghost1 = Ghost(board, ghost_start_y, ghost_start_x, RED)
+    ghost2 = Ghost(board, ghost_start_y, ghost_start_x, GREEN)
+    ghost3 = Ghost(board, ghost_start_y, ghost_start_x, WHITE)
+    ghosts = [ghost1,ghost2,ghost3]
     pressed_keys = [False, False, False, False]
     running=True
 
@@ -42,11 +55,19 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     pressed_keys[3] = False
 
-        pacman_instance.move(pressed_keys)   #move pacman
+
+
+        pacman_instance.move(pressed_keys)  #move pacman
+        for ghost in ghosts:
+            ghost.update()
+
+
 
         window.fill(BLACK)       #drawing the board
         draw_board(window,board)
-        pacman_instance.draw(window, cell_size)  
+        pacman_instance.draw(window, cell_size)
+        for ghost in ghosts:
+            ghost.draw(window, cell_size)
         text = font.render("Score: " + str(pacman_instance.score), True, WHITE)
         window.blit(text, (10, window_height - 30))
         
