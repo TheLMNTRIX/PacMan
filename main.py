@@ -25,16 +25,20 @@ def main():
     ghost_start_x_red = 14
     ghost_start_y_red = 13
     ghost_start_x_green = 14
-    ghost_start_y_green = 16
+    ghost_start_y_green = 15
     ghost1 = Ghost(board, ghost_start_y_red, ghost_start_x_red, RED)
     ghost2 = Ghost(board, ghost_start_y_green, ghost_start_x_green, GREEN)
     ghost3 = Ghost(board, ghost_start_y_white, ghost_start_x_white, WHITE)
     ghosts = [ghost1, ghost2, ghost3]
     pressed_keys = [False, False, False, False]
     running = True
+    frame_count = 0
+    ghost_release_frames = [0, 60, 120]  # Red ghost at 0 frames, white ghost at 160 frames, green ghost at 320 frames
+    ghost_paths = [None, None, None]  # Initialize paths for each ghost
 
     while running:
         clock.tick(8)
+        frame_count += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -60,14 +64,17 @@ def main():
         pacman_instance.move(pressed_keys)  # Move Pacman
 
         # Move ghosts using A* algorithm
-        for ghost in ghosts:
-            start_node = Node(ghost.y, ghost.x)
-            goal_node = Node(pacman_instance.row, pacman_instance.col)  # Pacman's position as the goal
-            path = a_star_search(board, start_node, goal_node)
-            if path:
-                next_node = path[1]  # Get the next node in the path
-                ghost.y = next_node.row
-                ghost.x = next_node.col
+        for i, ghost in enumerate(ghosts):
+            if frame_count >= ghost_release_frames[i]:  # Check if ghost should be released
+                if frame_count % 16 == 0 or ghost_paths[i] is None:  # Update path every 32 frames or if path is None
+                    start_node = Node(ghost.y, ghost.x)
+                    goal_node = Node(pacman_instance.row, pacman_instance.col)  # Pacman's position as the goal
+                    ghost_paths[i] = a_star_search(board, start_node, goal_node)
+
+                if ghost_paths[i]:
+                    next_node = ghost_paths[i].pop(0)  # Get the next node in the path
+                    ghost.y = next_node.row
+                    ghost.x = next_node.col
 
         window.fill(BLACK)
         draw_board(window, board)
